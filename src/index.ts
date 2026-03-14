@@ -5,11 +5,11 @@ const debug = Debug('editable-field')
 // for docuement.querySelector
 declare global {
     interface HTMLElementTagNameMap {
-        'editable-field': Example
+        'editable-field':EditableField
     }
 }
 
-export class Example extends HTMLElement {
+export class EditableField extends HTMLElement {
     // Define the attributes to observe
     // need this for `attributeChangedCallback`
     static observedAttributes = ['example']
@@ -94,4 +94,4 @@ export class Example extends HTMLElement {
     }
 }
 
-define('editable-field', Example)
+define('editable-field', EditableField)

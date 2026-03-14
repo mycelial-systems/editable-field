@@ -1,10 +1,10 @@
+editable-field {
+    background-color: red;
+}
+
 /**
  * Don't show until JavaScript is instantiated
  */
 editable-field:not(:defined) {
 	display: none;
-}
-
-editable-field {
-    background-color: red;
 }
