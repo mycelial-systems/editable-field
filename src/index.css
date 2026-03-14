@@ -1,10 +1,51 @@
-editable-field {
-    background-color: red;
+/**
+ * Utility class to hide content visually while keeping it
+ * screen reader-accessible.
+ * Source: https://www.scottohara.me/blog/2017/04/14/inclusively-hidden.html
+ */
+.visually-hidden:not(:focus, :active) {
+    clip-path: inset(100%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
 }
 
-/**
- * Don't show until JavaScript is instantiated
- */
-editable-field:not(:defined) {
-	display: none;
+editable-field,
+pencil-button {
+    /**
+     * Don't show until JavaScript is instantiated
+     */
+    &:not(:defined) {
+        display: none;
+    }
+}
+
+editable-field {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--editable-field-gap, 0.5rem);
+}
+
+pencil-button button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--pencil-button-color, currentcolor);
+    padding: 0;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+}
+
+pencil-button button:focus-visible {
+    outline: 2px solid currentcolor;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+pencil-button svg {
+    width: var(--pencil-button-size, 1.5rem);
+    height: var(--pencil-button-size, 1.5rem);
 }
