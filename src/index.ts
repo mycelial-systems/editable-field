@@ -1,11 +1,11 @@
 import { define } from '@substrate-system/web-component/util'
 import Debug from '@substrate-system/debug'
-const debug = Debug('{{component-name}}')
+const debug = Debug('editable-field')
 
 // for docuement.querySelector
 declare global {
     interface HTMLElementTagNameMap {
-        '{{component-name}}': Example
+        'editable-field': Example
     }
 }
 
@@ -94,4 +94,4 @@ export class Example extends HTMLElement {
     }
 }
 
-define('{{component-name}}', Example)
+define('editable-field', Example)

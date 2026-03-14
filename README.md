@@ -1,80 +1,114 @@
-# template web component
+# package name here
+![tests](https://github.com/mycelial-systems/editable-field/actions/workflows/nodejs.yml/badge.svg)
+[![types](https://img.shields.io/npm/types/@substrate-system/editable-field?style=flat-square)](README.md)
+[![module](https://img.shields.io/badge/module-ESM%2FCJS-blue?style=flat-square)](README.md)
+[![install size](https://flat.badgen.net/packagephobia/install/@mycelial-systems/editable-field?cache-control=no-cache)](https://packagephobia.com/result?p=@mycelial-systems/editable-field)
+[![GZip size](https://flat.badgen.net/bundlephobia/minzip/@substrate-system/editable-field)](https://bundlephobia.com/package/@substrate-system/editable-field)
+[![semantic versioning](https://img.shields.io/badge/semver-2.0.0-blue?logo=semver&style=flat-square)](https://semver.org/)
+[![Common Changelog](https://nichoth.github.io/badge/common-changelog.svg)](./CHANGELOG.md)
+[![license](https://img.shields.io/badge/license-Big_Time-blue?style=flat-square)](LICENSE)
 
-A template for vanilla web components.
 
-## see also
+`<package description goes here>`
 
-* [Web Component lifecycle methods](https://gomakethings.com/the-web-component-lifecycle-methods/)
-* [How to detect when attributes change on a Web Component](https://gomakethings.com/how-to-detect-when-attributes-change-on-a-web-component/)
+[See a live demo](https://mycelial-systems.github.io/editable-field/)
 
-## use
+<details><summary><h2>Contents</h2></summary>
+<!-- toc -->
+</details>
 
-1. Use the template button in github. Or clone this then
-`rm -rf .git && git init`. Then `npm i && npm init`.
+## Install
 
-* Use the template system to re-name this module and start the docs:
+Installation instructions
+
 ```sh
-node ./bin/cli.js
+npm i -S @substrate-system/editable-field
 ```
 
-__The CLI prompts for several variables__
+## Example
 
-* `gh-namespace` -- first path segment on github
-* `package-name` -- package name, including any namespace.
-  eg, `@alice/package`
-* `component-name` -- the name of the web component, as used in HTML,
-  eg `cool-example`
-* `repo-name` -- repository name, the last segment in github URL,
-  eg, `github.com/user/repo-name-here`
+```ts
+```
 
+## API
 
-2. Edit the source code in `src/index.ts`.
+This exposes ESM and common JS via
+[package.json `exports` field](https://nodejs.org/api/packages.html#exports).
 
-3. Delete either `.github/workflows/gh-pages-docs.yml` or
-   `.github/workflows/gh-pages.yml`, depending on whether you want to deploy an
-   example or docs to github pages.
+### ESM
+```js
+import '@substrate-system/editable-field'
+```
 
-4. __Edit things__
-    * edit the [build-example](https://github.com/nichoth/template-web-component/blob/c580636f1c912fe2633f7c2478f28b11729c9b80/package.json#L20)
-      command in `package.json` so that it has the right path for github pages
+### Common JS
+```js
+require('@substrate-system/editable-field')
+```
 
-## featuring
+### Attributes
 
-* compile the source to both ESM and CJS format, and put compiled files in `dist`.
-* ignore `dist` and `*.js` in git, but don't ignore them in npm. That way we
-  don't commit any compiled code to git, but it is available to consumers.
-* use npm's `prepublishOnly` hook to compile the code before publishing to npm.
-* use [exports](./package.json#L41) field in `package.json` to make sure the
-  right format is used by consumers.
-* `preversion` npm hook -- lint
-* `version` npm hook -- generate a TOC for the README, and create and add a
-  changelog
-* `postversion` npm hook -- `git push --follow-tags && npm publish`
-* eslint -- `npm run lint`
-* tests run in a browser environment via `tape-run` -- see
-  [`npm test`](./package.json#L12). Includes `tap` testing
-  tools -- [tapzero](https://github.com/bicycle-codes/tapzero)
-  and [tap-spec](https://www.npmjs.com/package/tap-spec)
-* CI via github actions
-* [stylelint](https://stylelint.io/) -- see
-  [preversion npm hook](https://github.com/nichoth/template-web-component/blob/main/package.json#L25)
+`<all attributes here>`
 
-## the component
+### Events
 
-See
-*[Web Component lifecycle methods](https://gomakethings.com/the-web-component-lifecycle-methods/)*.
-
-### [attributeChangedCallback](https://gomakethings.com/how-to-detect-when-attributes-change-on-a-web-component/#the-attributechangedcallback-method)
-
-> runs whenever an attribute on the Web Component is added, removed,
-> or changes in value.
-
-> For performance reasons, the attributeChangedCallback() method only watches
-> and reacts to attributes you tell it to. To do that, you create a
-> `static` `observedAttributes` property, with an array of attributes to
-> watch as its value.
-
-> You can use any attributes you’d like, including non-standard ones.
+`<all events here>`
 
 
-### [disconnectedCallback](https://gomakethings.com/the-web-component-lifecycle-methods/#the-connectedcallback-and-disconnectedcallback-methods)
+## CSS
+
+### Import CSS
+
+```js
+import '@substrate-system/editable-field/css'
+```
+
+Or minified:
+```js
+import '@substrate-system/editable-field/min/css'
+```
+
+### Customize CSS via some variables
+
+```css
+editable-field {
+    --example: pink;
+}
+```
+
+## Use
+This calls the global function `customElements.define`. Just import, then use
+the tag in your HTML.
+
+### JS
+```js
+import '@substrate-system/editable-field'
+```
+
+### HTML
+```html
+<div>
+    <editable-field></editable-field>
+</div>
+```
+
+### pre-built
+
+This package exposes minified JS and CSS files too. Copy them to a location that is
+accessible to your web server, then link to them in HTML.
+
+#### copy
+```sh
+cp ./node_modules/@substrate-system/editable-field/dist/index.min.js ./public/editable-field.min.js
+cp ./node_modules/@substrate-system/editable-field/dist/style.min.css ./public/editable-field.css
+```
+
+#### HTML
+```html
+<head>
+    <link rel="stylesheet" href="./editable-field.css">
+</head>
+<body>
+    <!-- ... -->
+    <script type="module" src="./editable-field.min.js"></script>
+</body>
+```

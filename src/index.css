@@ -1,10 +1,10 @@
 /**
  * Don't show until JavaScript is instantiated
  */
-{{component-name}}:not(:defined) {
+editable-field:not(:defined) {
 	display: none;
 }
 
-{{component-name}} {
+editable-field {
     background-color: red;
 }

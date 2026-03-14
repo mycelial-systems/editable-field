@@ -4,11 +4,11 @@ import '../src/index.js'
 
 test('example test', async t => {
     document.body.innerHTML += `
-        <{{component-name}} class="test">
-        </{{component-name}}>
+        <editable-field class="test">
+        </editable-field>
     `
 
-    const el = await waitFor('{{component-name}}')
+    const el = await waitFor('editable-field')
 
     t.ok(el, 'should find an element')
 })
