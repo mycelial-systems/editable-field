@@ -30,8 +30,8 @@ implementation and testing of each story.
 **Purpose**: Add missing dependency and export path; confirm build
 works before any implementation begins.
 
-- [ ] T001 Add `@substrate-system/a11y` to `dependencies` in `package.json`
-- [ ] T002 Add `"./edit-btn"` ESM/CJS export paths to `exports` in `package.json`
+- [x] T001 Add `@substrate-system/a11y` to `dependencies` in `package.json`
+- [x] T002 Add `"./edit-btn"` ESM/CJS export paths to `exports` in `package.json`
 
 **Checkpoint**: `package.json` is correct; `npm install` succeeds.
 
@@ -42,13 +42,13 @@ works before any implementation begins.
 **Purpose**: Core CSS and build infrastructure that both custom elements
 depend on. MUST be complete before any element implementation.
 
-- [ ] T003 Replace placeholder styles in `src/index.css` — add
+- [x] T003 Replace placeholder styles in `src/index.css` — add
   `@import '@substrate-system/a11y/dist/visually-hidden.css'`,
   host element layout rules with `--editable-field-gap` custom
   property, `pencil-button` button reset rules with
   `--pencil-button-color` and `--pencil-button-size` custom
   properties, and `pencil-button:not(:defined)` hide rule
-- [ ] T004 [P] Verify build pipeline handles two source entry-points by
+- [x] T004 [P] Verify build pipeline handles two source entry-points by
   confirming `esbuild src/*.ts` targets both `src/index.ts` and
   `src/edit-btn.ts` in the `build-esm` and `build-cjs` scripts
   in `package.json`
@@ -69,7 +69,7 @@ and `aria-disabled` are removed and the input has focus.
 
 ### Implementation for User Story 1
 
-- [ ] T005 [US1] Implement `PencilButton` class in `src/edit-btn.ts`
+- [x] T005 [US1] Implement `PencilButton` class in `src/edit-btn.ts`
   — extend `WebComponent`, set `static TAG = 'pencil-button'`,
   in `connectedCallback` guard against re-render (check for
   existing `button`), set `innerHTML` to a `<button type="button">`
@@ -77,7 +77,7 @@ and `aria-disabled` are removed and the input has focus.
   `<span class="visually-hidden">Edit</span>`, register via
   `define('pencil-button', PencilButton)`, declare
   `HTMLElementTagNameMap` augmentation
-- [ ] T006 [US1] Rewrite `EditableField` class in `src/index.ts`
+- [x] T006 [US1] Rewrite `EditableField` class in `src/index.ts`
   — import `PencilButton` from `./edit-btn`, set
   `static TAG = 'editable-field'`,
   `static observedAttributes = ['name', 'value', 'disabled']`,
@@ -88,20 +88,20 @@ and `aria-disabled` are removed and the input has focus.
   attach click listener on the pencil-button that calls
   `_enableEdit()`, register via `define('editable-field',
   EditableField)`
-- [ ] T007 [US1] Implement `_enableEdit()` private method on
+- [x] T007 [US1] Implement `_enableEdit()` private method on
   `EditableField` in `src/index.ts` — query `this.querySelector('input')`,
   call `removeAttribute('disabled')`, `removeAttribute('aria-disabled')`,
   then `focus()`
-- [ ] T008 [US1] Implement `handleChange_name` in `src/index.ts` —
+- [x] T008 [US1] Implement `handleChange_name` in `src/index.ts` —
   in `attributeChangedCallback`, update the internal input's `id`
   and `name` attributes to the new value
-- [ ] T009 [US1] Implement `handleChange_value` in `src/index.ts` —
+- [x] T009 [US1] Implement `handleChange_value` in `src/index.ts` —
   in `attributeChangedCallback`, update the internal input's
   `value` attribute to the new value
-- [ ] T010 [US1] Implement `handleChange_disabled` in `src/index.ts`
+- [x] T010 [US1] Implement `handleChange_disabled` in `src/index.ts`
   — in `attributeChangedCallback`, forward `disabled` attribute
   to the internal input (add or remove based on new value)
-- [ ] T011 [P] [US1] Write basic smoke tests in `test/index.ts` —
+- [x] T011 [P] [US1] Write basic smoke tests in `test/index.ts` —
   import both elements, render `<editable-field name="test"
   value="hello">` into `document.body`, assert internal input
   exists with `disabled` attribute and `id="test"`, simulate
@@ -129,11 +129,11 @@ polish and verifies the constitution's Principle IV is fully met.
 
 ### Implementation for User Story 2
 
-- [ ] T012 [US2] Add `aria-disabled="true"` to the `<editable-field>`
+- [x] T012 [US2] Add `aria-disabled="true"` to the `<editable-field>`
   host element itself (not just the input) in the `connectedCallback`
   of `src/index.ts`, and remove it in `_enableEdit()`, so
   assistive technology announces the overall field state
-- [ ] T013 [US2] Verify focus ring is not suppressed — inspect
+- [x] T013 [US2] Verify focus ring is not suppressed — inspect
   `src/index.css` and confirm no `outline: none` or
   `outline: 0` rule exists on `pencil-button button` without a
   visible replacement; add a `:focus-visible` outline rule if
@@ -161,11 +161,11 @@ consumers.
 
 ### Implementation for User Story 3
 
-- [ ] T014 [US3] Confirm `src/edit-btn.ts` does NOT import from
+- [x] T014 [US3] Confirm `src/edit-btn.ts` does NOT import from
   `src/index.ts` (no circular dependency) — the file should only
   import from `@substrate-system/web-component/util` and
   `@substrate-system/web-component`
-- [ ] T015 [US3] Add `edit-btn.ts` to build scripts in `package.json`
+- [x] T015 [US3] Add `edit-btn.ts` to build scripts in `package.json`
   — confirm `esbuild src/*.ts` already covers it (glob pattern
   should include it); verify the `exports` map added in T002 resolves
   correctly to `dist/edit-btn.js` / `dist/edit-btn.cjs`
@@ -179,14 +179,14 @@ registers `<pencil-button>` without loading `EditableField`.
 
 **Purpose**: Final verification, documentation, and lint conformance.
 
-- [ ] T016 Run `npm run lint` and fix any ESLint errors in
+- [x] T016 Run `npm run lint` and fix any ESLint errors in
   `src/index.ts` and `src/edit-btn.ts`
-- [ ] T017 [P] Run `npx stylelint src/*.css` and fix any stylelint
+- [x] T017 [P] Run `npx stylelint src/*.css` and fix any stylelint
   errors in `src/index.css`
-- [ ] T018 [P] Run `npm run build` and confirm all expected output
+- [x] T018 [P] Run `npm run build` and confirm all expected output
   files exist in `dist/` per the quickstart checklist in
   `specs/001-editable-field-component/quickstart.md`
-- [ ] T019 [P] Update `src/index.css` to replace the placeholder
+- [x] T019 [P] Update `src/index.css` to replace the placeholder
   `background-color: red` rule with correct editable-field styles
 
 ---

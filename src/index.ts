@@ -1,96 +1,74 @@
+import { WebComponent } from '@substrate-system/web-component'
 import { define } from '@substrate-system/web-component/util'
 import Debug from '@substrate-system/debug'
+import './edit-btn.js'
+
 const debug = Debug('editable-field')
 
-// for docuement.querySelector
 declare global {
     interface HTMLElementTagNameMap {
         'editable-field':EditableField
     }
 }
 
-export class EditableField extends HTMLElement {
-    // Define the attributes to observe
-    // need this for `attributeChangedCallback`
-    static observedAttributes = ['example']
-
-    example:string|null
-
-    constructor () {
-        super()
-        const example = this.getAttribute('example')
-        this.example = example
-
-        this.innerHTML = `<div>
-            <p>example</p>
-            <ul>
-                ${Array.from(this.children).filter(Boolean).map(node => {
-                    return `<li>${node.outerHTML}</li>`
-                }).join('')}
-            </ul>
-        </div>`
-    }
-
-    /**
-     * Handle 'example' attribute changes
-     * @see {@link https://gomakethings.com/how-to-detect-when-attributes-change-on-a-web-component/#organizing-your-code Go Make Things article}
-     *
-     * @param  {string} oldValue The old attribute value
-     * @param  {string} newValue The new attribute value
-     */
-    handleChange_example (oldValue:string, newValue:string) {
-        debug('handling example change', oldValue, newValue)
-
-        if (newValue === null) {
-            // [example] was removed
-        } else {
-            // set [example] attribute
-        }
-    }
-
-    /**
-     * Runs when the value of an attribute is changed
-     *
-     * @param  {string} name     The attribute name
-     * @param  {string} oldValue The old attribute value
-     * @param  {string} newValue The new attribute value
-     */
-    attributeChangedCallback (name:string, oldValue:string, newValue:string) {
-        debug('an attribute changed', name)
-        const handler = this[`handleChange_${name}`];
-        (handler && handler(oldValue, newValue))
-        this.render()
-    }
-
-    disconnectedCallback () {
-        debug('disconnected')
-    }
-
-    connectedCallback () {
-        debug('connected')
-
-        const observer = new MutationObserver(function (mutations) {
-            mutations.forEach((mutation) => {
-                if (mutation.addedNodes.length) {
-                    debug('Node added: ', mutation.addedNodes)
-                }
-            })
-        })
-
-        observer.observe(this, { childList: true })
-
-        this.render()
-    }
+export class EditableField extends WebComponent {
+    static TAG = 'editable-field'
+    static observedAttributes = ['name', 'value', 'disabled']
 
     render () {
-        this.innerHTML = `<div>
-            <p>example</p>
-            <ul>
-                ${Array.from(this.children).filter(Boolean).map(node => {
-                    return `<li>${node.outerHTML}</li>`
-                }).join('')}
-            </ul>
-        </div>`
+        if (this.querySelector('input')) return
+        debug('render')
+        const name = this.getAttribute('name') ?? ''
+        const value = this.getAttribute('value') ?? ''
+        this.setAttribute('aria-disabled', 'true')
+        this.innerHTML = `<input
+            id="${name}"
+            name="${name}"
+            value="${value}"
+            disabled
+            aria-disabled="true"
+        /><pencil-button></pencil-button>`
+        this.querySelector('pencil-button')
+            ?.addEventListener('click', () => this._enableEdit())
+    }
+
+    _enableEdit () {
+        const input = this.querySelector('input')
+        if (!input) return
+        input.removeAttribute('disabled')
+        input.removeAttribute('aria-disabled')
+        this.removeAttribute('aria-disabled')
+        input.focus()
+    }
+
+    handleChange_name (_old:string, newValue:string) {
+        debug('name changed', newValue)
+        const input = this.querySelector('input')
+        if (!input) return
+        input.setAttribute('id', newValue)
+        input.setAttribute('name', newValue)
+    }
+
+    handleChange_value (_old:string, newValue:string) {
+        debug('value changed', newValue)
+        const input = this.querySelector('input')
+        if (!input) return
+        input.setAttribute('value', newValue)
+    }
+
+    handleChange_disabled (_old:string, newValue:string) {
+        debug('disabled changed', newValue)
+        const input = this.querySelector('input')
+        if (!input) return
+        const remove = (
+            (newValue as unknown) === null ||
+            newValue === 'false'
+        )
+        if (remove) {
+            input.removeAttribute('disabled')
+        } else {
+            input.setAttribute('disabled', '')
+        }
     }
 }
 
