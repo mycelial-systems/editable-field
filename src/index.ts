@@ -28,8 +28,11 @@ export class EditableField extends WebComponent {
             disabled
             aria-disabled="true"
         /><pencil-button></pencil-button>`
-        this.querySelector('pencil-button')
-            ?.addEventListener('click', () => this._enableEdit())
+
+        this.querySelector('pencil-button')?.addEventListener(
+            'click',
+            () => this._enableEdit()
+        )
     }
 
     _enableEdit () {
@@ -38,6 +41,7 @@ export class EditableField extends WebComponent {
         input.removeAttribute('disabled')
         input.removeAttribute('aria-disabled')
         this.removeAttribute('aria-disabled')
+        this.classList.add('editing')
         input.focus()
     }
 

@@ -1,3 +1,4 @@
+import '@substrate-system/a11y'
 import '../src/index.css'
 import '../src/index.js'
 
@@ -8,5 +9,7 @@ if (import.meta.env.DEV || import.meta.env.MODE !== 'production') {
 }
 
 document.body.innerHTML += `
-    <editable-field></editable-field>
+    <div>
+        <editable-field id="abc" name="abc" value="hello inputs"></editable-field>
+    </div>
 `

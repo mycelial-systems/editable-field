@@ -12,26 +12,47 @@ editable-field {
     display: inline-flex;
     align-items: center;
     gap: var(--editable-field-gap, 0.5rem);
+
+    & input {
+        font-size: 1rem;
+        width: 100%;
+        padding: 0.5rem 1rem;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid black;
+
+        &:focus {
+            outline: 1px solid;
+        }
+    }
+
+    &.editing {
+        & input {
+            outline: 1px solid;
+        }
+    }
 }
 
-pencil-button button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--pencil-button-color, currentcolor);
-    padding: 0;
-    line-height: 1;
-    display: inline-flex;
-    align-items: center;
-}
+pencil-button {
+    & button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--pencil-button-color, currentcolor);
+        padding: 0;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 0;
 
-pencil-button button:focus-visible {
-    outline: 2px solid currentcolor;
-    outline-offset: 2px;
-    border-radius: 2px;
-}
+        &:focus-visible {
+            outline: 2px solid currentcolor;
+            outline-offset: 2px;
+        }
+    }
 
-pencil-button svg {
-    width: var(--pencil-button-size, 1.5rem);
-    height: var(--pencil-button-size, 1.5rem);
+    & svg {
+        width: var(--pencil-button-size, 1.5rem);
+        height: var(--pencil-button-size, 1.5rem);
+    }
 }

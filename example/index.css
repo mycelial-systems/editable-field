@@ -1,0 +1,9 @@
+body {
+    & div {
+        max-width: 20rem;
+
+        & editable-field {
+            width: 100%;
+        }
+    }
+}
