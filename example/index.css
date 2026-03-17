@@ -1,6 +1,9 @@
 body {
     & div {
         max-width: 20rem;
+        margin: 2rem auto;
+        border: 1px solid;
+        padding: 4rem;
 
         & editable-field {
             width: 100%;

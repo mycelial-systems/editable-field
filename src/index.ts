@@ -13,7 +13,7 @@ declare global {
     }
 }
 
-export class EditableField extends WebComponent {
+export class EditableField extends WebComponent.create('editable-field') {
     static TAG = 'editable-field'
     static observedAttributes = ['name', 'value', 'disabled']
 
@@ -60,6 +60,8 @@ export class EditableField extends WebComponent {
         this.removeAttribute('aria-disabled')
         this.classList.add('editing')
         input.focus()
+        this.emit('edit')
+        this.dispatch('edit')
     }
 
     _disableEdit () {
@@ -73,13 +75,18 @@ export class EditableField extends WebComponent {
 
     _save () {
         this._disableEdit()
-        this.dispatchEvent(new CustomEvent('save', { bubbles: true }))
+        this.querySelector('input')?.dispatchEvent(
+            new CustomEvent('save', { bubbles: true })
+        )
+        this.emit('save', { bubbles: true })
     }
 
     _cancel () {
         const input = this.querySelector('input')
         if (input) input.value = this._originalValue
         this._disableEdit()
+        this.dispatch('cancel')
+        this.emit('cancel')
     }
 
     handleChange_name (_old:string, newValue:string) {
