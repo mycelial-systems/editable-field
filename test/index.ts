@@ -7,7 +7,10 @@ test('editable-field renders disabled input', async t => {
         <editable-field name="test" value="hello">
         </editable-field>
     `
-    const el = await waitFor('editable-field')
+    const el = ensureElement(
+        await waitFor('editable-field'),
+        'editable-field should render for disabled input test'
+    )
     t.ok(el, 'should find the element')
 
     const input = el.querySelector('input')
@@ -44,7 +47,10 @@ test('pencil-button click enables input', async t => {
         <editable-field name="test2" value="world">
         </editable-field>
     `
-    const el = await waitFor('editable-field')
+    const el = ensureElement(
+        await waitFor('editable-field'),
+        'editable-field should render for pencil button test'
+    )
     const btn = el.querySelector('pencil-button button') as HTMLElement
     t.ok(btn, 'should have a pencil button')
 
@@ -70,7 +76,10 @@ test('pencil-button click enables input', async t => {
 
 test('pencil-button standalone', async t => {
     document.body.innerHTML = '<pencil-button></pencil-button>'
-    const el = await waitFor('pencil-button')
+    const el = ensureElement(
+        await waitFor('pencil-button'),
+        'pencil-button should render standalone'
+    )
     t.ok(el, 'should render pencil-button standalone')
 
     const btn = el.querySelector('button')
@@ -87,7 +96,10 @@ test('pencil-button standalone', async t => {
 
 test('save-button renders with correct structure', async t => {
     document.body.innerHTML = '<save-button></save-button>'
-    const el = await waitFor('save-button')
+    const el = ensureElement(
+        await waitFor('save-button'),
+        'save-button should render standalone'
+    )
     t.ok(el, 'should render save-button standalone')
 
     const btn = el.querySelector('button')
@@ -105,7 +117,10 @@ test('save-button renders with correct structure', async t => {
 
 test('x-button renders with correct structure', async t => {
     document.body.innerHTML = '<x-button></x-button>'
-    const el = await waitFor('x-button')
+    const el = ensureElement(
+        await waitFor('x-button'),
+        'x-button should render standalone'
+    )
     t.ok(el, 'should render x-button standalone')
 
     const btn = el.querySelector('button')
@@ -126,7 +141,10 @@ test('save-button click dispatches save event and exits editing', async t => {
         <editable-field name="test3" value="hello">
         </editable-field>
     `
-    const el = await waitFor('editable-field')
+    const el = ensureElement(
+        await waitFor('editable-field'),
+        'editable-field should render for save-button click test'
+    )
 
     // enter editing state
     const pencil = el.querySelector('pencil-button button') as HTMLElement
@@ -159,7 +177,10 @@ test('x-button click restores value and exits editing', async t => {
         <editable-field name="test4" value="original">
         </editable-field>
     `
-    const el = await waitFor('editable-field')
+    const el = ensureElement(
+        await waitFor('editable-field'),
+        'editable-field should render for x-button click test'
+    )
 
     // enter editing state
     const pencil = el.querySelector('pencil-button button') as HTMLElement
@@ -185,3 +206,20 @@ test('x-button click restores value and exits editing', async t => {
         'input should be disabled after cancel'
     )
 })
+
+test('all done', () => {
+    if (window) {
+        // @ts-expect-error tests
+        window.testsFinished = true
+    }
+})
+
+function ensureElement<T extends HTMLElement> (
+    candidate:T|null,
+    message:string
+):T {
+    if (!candidate) {
+        throw new Error(message)
+    }
+    return candidate
+}
