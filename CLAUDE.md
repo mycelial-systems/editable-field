@@ -1,8 +1,9 @@
 # editable-field Development Guidelines
 
-Auto-generated from all feature plans. Last updated: 2026-03-14
+Auto-generated from all feature plans. Last updated: 2026-03-17
 
 ## Active Technologies
+- TypeScript 5.7 + @substrate-system/web-component ^0.0.46 (002-edit-save-cancel-buttons)
 
 - TypeScript 5.7 + `@substrate-system/web-component` ^0.0.46, (001-editable-field-component)
 
@@ -41,6 +42,7 @@ specs/
 - CSS custom properties for all theming
 
 ## Recent Changes
+- 002-edit-save-cancel-buttons: Added TypeScript 5.7 + @substrate-system/web-component ^0.0.46
 
 - 001-editable-field-component: Added TypeScript 5.7 + `@substrate-system/web-component` ^0.0.46,
 

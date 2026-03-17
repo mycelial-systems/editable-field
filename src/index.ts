@@ -2,6 +2,8 @@ import { WebComponent } from '@substrate-system/web-component'
 import { define } from '@substrate-system/web-component/util'
 import Debug from '@substrate-system/debug'
 import './edit-btn.js'
+import './save-btn.js'
+import './x-btn.js'
 
 const debug = Debug('editable-field')
 
@@ -15,6 +17,8 @@ export class EditableField extends WebComponent {
     static TAG = 'editable-field'
     static observedAttributes = ['name', 'value', 'disabled']
 
+    _originalValue:string = ''
+
     render () {
         if (this.querySelector('input')) return
         debug('render')
@@ -27,22 +31,55 @@ export class EditableField extends WebComponent {
             value="${value}"
             disabled
             aria-disabled="true"
-        /><pencil-button></pencil-button>`
+        /><pencil-button></pencil-button
+        ><save-button></save-button
+        ><x-button></x-button>`
 
         this.querySelector('pencil-button')?.addEventListener(
             'click',
             () => this._enableEdit()
+        )
+
+        this.querySelector('save-button')?.addEventListener(
+            'click',
+            () => this._save()
+        )
+
+        this.querySelector('x-button')?.addEventListener(
+            'click',
+            () => this._cancel()
         )
     }
 
     _enableEdit () {
         const input = this.querySelector('input')
         if (!input) return
+        this._originalValue = input.value
         input.removeAttribute('disabled')
         input.removeAttribute('aria-disabled')
         this.removeAttribute('aria-disabled')
         this.classList.add('editing')
         input.focus()
+    }
+
+    _disableEdit () {
+        const input = this.querySelector('input')
+        if (!input) return
+        this.classList.remove('editing')
+        input.setAttribute('disabled', '')
+        input.setAttribute('aria-disabled', 'true')
+        this.setAttribute('aria-disabled', 'true')
+    }
+
+    _save () {
+        this._disableEdit()
+        this.dispatchEvent(new CustomEvent('save', { bubbles: true }))
+    }
+
+    _cancel () {
+        const input = this.querySelector('input')
+        if (input) input.value = this._originalValue
+        this._disableEdit()
     }
 
     handleChange_name (_old:string, newValue:string) {
@@ -75,5 +112,9 @@ export class EditableField extends WebComponent {
         }
     }
 }
+
+export { PencilButton } from './edit-btn.js'
+export { SaveButton } from './save-btn.js'
+export { XButton } from './x-btn.js'
 
 define('editable-field', EditableField)

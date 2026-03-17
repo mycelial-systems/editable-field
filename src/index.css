@@ -1,5 +1,7 @@
 editable-field,
-pencil-button {
+pencil-button,
+save-button,
+x-button {
     /**
      * Don't show until JavaScript is instantiated
      */
@@ -26,9 +28,23 @@ editable-field {
         }
     }
 
+    & save-button,
+    & x-button {
+        display: none;
+    }
+
     &.editing {
         & input {
             outline: 1px solid;
+        }
+
+        & pencil-button {
+            display: none;
+        }
+
+        & save-button,
+        & x-button {
+            display: inline-flex;
         }
     }
 }
@@ -54,5 +70,53 @@ pencil-button {
     & svg {
         width: var(--pencil-button-size, 1.5rem);
         height: var(--pencil-button-size, 1.5rem);
+    }
+}
+
+save-button {
+    & button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--save-button-color, currentcolor);
+        padding: 0;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 0;
+
+        &:focus-visible {
+            outline: 2px solid currentcolor;
+            outline-offset: 2px;
+        }
+    }
+
+    & svg {
+        width: var(--save-button-size, 1.5rem);
+        height: var(--save-button-size, 1.5rem);
+    }
+}
+
+x-button {
+    & button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--x-button-color, currentcolor);
+        padding: 0;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 0;
+
+        &:focus-visible {
+            outline: 2px solid currentcolor;
+            outline-offset: 2px;
+        }
+    }
+
+    & svg {
+        width: var(--x-button-size, 1.5rem);
+        height: var(--x-button-size, 1.5rem);
     }
 }
