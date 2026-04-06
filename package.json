@@ -1,6 +1,6 @@
 {
   "name": "@substrate-system/editable-field",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Input with edit button",
   "type": "module",
   "main": "dist/index.js",
