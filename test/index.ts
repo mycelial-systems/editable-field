@@ -207,6 +207,41 @@ test('x-button click restores value and exits editing', async t => {
     )
 })
 
+test('escape key restores value and exits editing', async t => {
+    document.body.innerHTML = `
+        <editable-field name="test5" value="original">
+        </editable-field>
+    `
+    const el = ensureElement(
+        await waitFor('editable-field'),
+        'editable-field should render for escape key test'
+    )
+
+    const pencil = el.querySelector('pencil-button button') as HTMLElement
+    pencil.click()
+
+    const input = el.querySelector('input') as HTMLInputElement
+    input.value = 'changed'
+
+    let cancelEventFired = false
+    el.addEventListener('cancel', () => { cancelEventFired = true })
+
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+
+    t.ok(cancelEventFired, 'should dispatch cancel event')
+    t.equal(
+        el.classList.contains('editing'),
+        false,
+        'should exit editing state after escape'
+    )
+    t.equal(input.value, 'original', 'input value should be restored')
+    t.equal(
+        input.getAttribute('disabled'),
+        '',
+        'input should be disabled after escape'
+    )
+})
+
 test('all done', () => {
     if (window) {
         // @ts-expect-error tests

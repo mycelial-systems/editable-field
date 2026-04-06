@@ -35,6 +35,15 @@ export class EditableField extends WebComponent.create('editable-field') {
         ><save-button></save-button
         ><x-button></x-button>`
 
+        this.querySelector('input')?.addEventListener(
+            'keydown',
+            (ev:KeyboardEvent) => {
+                if (ev.key !== 'Escape') return
+                if (!this.classList.contains('editing')) return
+                this._cancel()
+            }
+        )
+
         this.querySelector('pencil-button')?.addEventListener(
             'click',
             () => this._enableEdit()
