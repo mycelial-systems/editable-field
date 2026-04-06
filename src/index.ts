@@ -69,6 +69,7 @@ export class EditableField extends WebComponent.create('editable-field') {
         this.removeAttribute('aria-disabled')
         this.classList.add('editing')
         input.focus()
+        input.select()
         this.emit('edit')
         this.dispatch('edit')
     }
