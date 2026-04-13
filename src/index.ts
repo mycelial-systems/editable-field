@@ -31,9 +31,10 @@ export class EditableField extends WebComponent.create('editable-field') {
             value="${value}"
             disabled
             aria-disabled="true"
-        /><pencil-button></pencil-button
-        ><save-button></save-button
-        ><x-button></x-button>`
+        />
+        <pencil-button></pencil-button>
+        <save-button></save-button>
+        <x-button></x-button>`
 
         this.querySelector('input')?.addEventListener(
             'keydown',

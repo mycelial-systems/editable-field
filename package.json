@@ -18,6 +18,10 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./pencil-button": {
+      "import": "./dist/edit-btn.js",
+      "require": "./dist/edit-btn.cjs"
+    },
     "./css": "./dist/index.css",
     "./min/css": "./dist/index.min.css",
     "./min/*": {
