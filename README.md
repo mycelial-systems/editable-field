@@ -1,5 +1,5 @@
 # Editable Field
-`editable-field` is a tiny Web Component that wraps a disabled `<input>`
+`editable-field` is a tiny Web Component that wraps an `<input>`
 together with a pencil/save/cancel button set. The pencil button enables
 editing, and the save/cancel controls are revealed once the field is in
 edit mode. It keeps the host attributes (`name`, `value`, `disabled`) in
@@ -57,8 +57,7 @@ Now use `<editable-field>` in your markup.
 ### Attributes
 
 - `name` (string, default `''`)
-  Mirrors the attribute to the inner `<input>`'s `name` and `id` via
-  `handleChange_name`, so the field can participate in form submission.
+  Mirrors the attribute to the inner `<input>`'s `name` and `id`
 - `value` (string, default `''`)
   Syncs to the input `value`. Updating the host attribute when the field is
   idle updates what appears when the next edit session starts.
@@ -93,7 +92,7 @@ Now use `<editable-field>` in your markup.
   - Notes: Triggered by the cancel button. The component resets the cached
     `_originalValue` before the event bubbles.
 
-The `example/index.ts` file also shows how to log the events, inspect their
+The `example/index.ts` file also shows how to log the events, inspect the event
 `type`, and listen for the wildcard `field.addEventListener('*', handler)`
 that surfaces every emitted event.
 
