@@ -23,6 +23,7 @@
     "declarationMap": true
   },
   "include": [
+    "env.d.ts",
     "example",
     "src/**/*",
     "test",

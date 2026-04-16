@@ -1,8 +1,7 @@
 import Debug from '@substrate-system/debug'
-import '@substrate-system/a11y'
 import '../src/index.css'
-import '../src/index.js'
-import type { EditableField } from '../src/index.js'
+import { EditableField } from '../src/index'
+import '@substrate-system/a11y'
 const debug = Debug('editable-field:examle')
 const debug2 = Debug('editable-field:edit')
 const debugStar = Debug('editable-field:star')
@@ -10,16 +9,20 @@ const debugStar = Debug('editable-field:star')
 const qs = document.querySelector.bind(document)
 
 if (import.meta.env.DEV || import.meta.env.MODE !== 'production') {
+    // import '@substrate-system/a11y'
     localStorage.setItem('DEBUG', 'editable-field,editable-field:*')
 } else {
     localStorage.removeItem('DEBUG')
 }
 
-document.body.innerHTML += `
-    <div>
-        <editable-field id="abc" name="abc" value="hello inputs"></editable-field>
-    </div>
-`
+const container = qs('#example-container')
+if (container) {
+    container.innerHTML = `
+        <label for="abc">Enter text:</label>
+        <${EditableField.TAG} id="abc" name="abc" value="hello inputs">
+        </${EditableField.TAG}>
+    `
+}
 
 const field = qs('editable-field')
 field?.addEventListener('save', ev => {
