@@ -18,8 +18,8 @@ if (import.meta.env.DEV || import.meta.env.MODE !== 'production') {
 const container = qs('#example-container')
 if (container) {
     container.innerHTML = `
-        <label for="abc">Enter text:</label>
-        <${EditableField.TAG} id="abc" name="abc" value="hello inputs">
+        <label for="abcid">Example Input</label>
+        <${EditableField.TAG} id="abcid" name="abc" value="hello inputs">
         </${EditableField.TAG}>
     `
 }
