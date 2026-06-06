@@ -52,19 +52,19 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@substrate-system/web-component": "^0.0.46"
+    "@substrate-system/web-component": "^0.0.51"
   },
   "devDependencies": {
     "@substrate-system/a11y": "^0.0.17",
     "@substrate-system/debug": "^0.9.60",
     "@substrate-system/dom": "^0.1.13",
-    "@substrate-system/tapout": "^0.0.37",
+    "@substrate-system/tapout": "^0.0.38",
     "@substrate-system/tapzero": "^0.10.16",
     "@typescript-eslint/eslint-plugin": "^8.7.0",
     "@typescript-eslint/parser": "^8.7.0",
     "auto-changelog": "^2.4.0",
     "browserslist": "^4.28.1",
-    "esbuild": "^0.27.2",
+    "esbuild": "^0.28.0",
     "eslint": "^8.57.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -75,8 +75,8 @@
     "stylelint-config-standard": "^40.0.0",
     "tap-spec": "^5.0.0",
     "typedoc": "^0.28.1",
-    "typescript": "^5.7.3",
-    "vite": "^7.3.0"
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16"
   },
   "keywords": [
     "edit",
