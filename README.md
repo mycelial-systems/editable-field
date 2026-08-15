@@ -21,6 +21,7 @@ check the `example/` folder for a hands-on playbook.
 - [Usage](#usage)
   * [JavaScript](#javascript)
   * [HTML](#html)
+  * [Controlled mode](#controlled-mode)
 - [CSS](#css)
   * [CSS variables](#css-variables)
 - [Pre-built files](#pre-built-files)
@@ -70,13 +71,32 @@ Now use `<editable-field>` in your markup.
       value="hi@example.com"
       disabled
   ></editable-field>`
+- `can-edit` (boolean-ish, default off)
+  Hands ownership of the editing state to your app. See
+  [Controlled mode](#controlled-mode). Like `disabled`, an absent
+  attribute or the string `'false'` counts as off.
+- `editing` (boolean-ish, default off)
+  Whether the editor is open. Setting it caches the current value as the
+  cancel baseline, enables and focuses the input, and adds the `editing`
+  class. Clearing it closes the editor. Setting it does not emit `edit`,
+  because your app already knows.
+- `pending` (boolean-ish, default off)
+  Set this while your save is in flight. Adds the `pending` class,
+  disables the input and both buttons, and leaves the editor open.
+  `editing` and `pending` can be cleared in either order.
+- `no-trigger` (boolean-ish, default off)
+  Hides the built-in pencil button so your app can supply its own
+  affordance. The button stays in the markup but gets `hidden`, which
+  keeps it out of the tab order and the accessibility tree.
 
 ### Events
 
 - `edit`
   - Origin: host element via `this.emit('edit')` / `this.dispatch('edit')`
   - Bubbles: yes
-  - Notes: Fires when the pencil button enables editing.
+  - Notes: Fires when the pencil button is clicked. Uncontrolled, the
+    editor is already open by the time it fires; controlled, it is a
+    request and nothing has opened yet.
     The event is also available as `editable-field:edit` through
     `field.on('edit', handler)`.
 - `save`
@@ -85,12 +105,16 @@ Now use `<editable-field>` in your markup.
   - Notes: Fired when the save button is clicked. Because the event
     originates from the `<input>`, `event.target.value` gives the new value.
     A namespaced `editable-field:save` is emitted via `field.on('save', …)`
-    as shown in `example/index.ts`.
+    as shown in `example/index.ts`. Uncontrolled, the editor has already
+    closed by the time it fires; controlled, it stays open until you
+    clear `editing`.
 - `cancel`
   - Origin: host element (`this.emit('cancel')`, `this.dispatch('cancel')`)
   - Bubbles: yes
-  - Notes: Triggered by the cancel button. The component resets the cached
-    `_originalValue` before the event bubbles.
+  - Notes: Triggered by the cancel button or the Escape key. The component
+    restores the cached `_originalValue` before the event bubbles.
+    Controlled, restoring the value is all it does; clearing `editing` is
+    yours. Both are inert while `pending` is set.
 
 The `example/index.ts` file also shows how to log the events, inspect the event
 `type`, and listen for the wildcard `field.addEventListener('*', handler)`
@@ -134,6 +158,74 @@ The component consumes the same attributes as the native `<input>`:
 When placed inside a form, the `name` attribute flows through to the inner
 input so form serialization (via `FormData`) works without extra wiring.
 
+### Controlled mode
+
+By default the component owns the editing state. The pencil opens the
+editor, save and cancel close it, and you just listen for events.
+
+Pass `can-edit` and that ownership flips. The component emits events but
+never opens or closes the editor on its own, so a pencil click becomes a
+request rather than an action. That is what makes an async save
+representable: `save` fires, your handler runs, and the editor stays open
+until you clear `editing`.
+
+```js
+const field = document.querySelector('editable-field')
+
+field.addEventListener('edit', () => {
+    field.setAttribute('editing', '')
+})
+
+field.addEventListener('cancel', () => {
+    field.removeAttribute('editing')
+})
+
+field.addEventListener('save', async ev => {
+    const next = ev.target.value
+    field.setAttribute('pending', '')
+
+    try {
+        await saveToServer(next)
+        field.setAttribute('value', next)
+        field.removeAttribute('editing')
+    } catch (err) {
+        // leave `editing` set so the user can correct and retry
+        showError(err)
+    } finally {
+        field.removeAttribute('pending')
+    }
+})
+```
+
+While `pending` is set the input and both buttons are disabled, and
+Escape does nothing, so a slow save cannot be double-submitted or
+cancelled out from under itself. Clear it on failure as well as success,
+or the field stays stuck.
+
+Setting `editing` on its own, without `can-edit`, also stops the
+component closing itself. The difference is that `can-edit` keeps the
+field controlled while the editor is closed, which is what a pencil
+click needs in order to reach you as an `edit` event.
+
+To supply your own affordance, add `no-trigger` and set `editing`
+yourself.
+
+```html
+<editable-field
+    name="email"
+    value="hi@example.com"
+    can-edit
+    no-trigger
+></editable-field>
+<button type="button" id="edit-email">Edit email</button>
+```
+
+```js
+document.getElementById('edit-email').addEventListener('click', () => {
+    field.setAttribute('editing', '')
+})
+```
+
 ## CSS
 
 The package ships with default styles:
@@ -156,6 +248,10 @@ elements so the buttons and outlines behave as shipped.
 - `--save-button-size` (`1.5rem`): Width/height of the save icon.
 - `--x-button-color` (`currentcolor`): Stroke color for the cancel "x".
 - `--x-button-size` (`1.5rem`): Width/height of the cancel icon.
+- `--save-button-pending-opacity` (`0.5`): Opacity of the save button
+  while `pending` is set.
+- `--x-button-pending-opacity` (`0.5`): Opacity of the cancel button
+  while `pending` is set.
 
 Override any of these variables on the host to restyle the buttons or the
 spacing without touching the component internals.
@@ -196,5 +292,7 @@ cp ./node_modules/@substrate-system/editable-field/dist/style.min.css ./public/e
   mode.
 - The cancel flow restores the cached `_originalValue` before it emits
   `cancel`.
+- `pending` ships no spinner. It dims the disabled buttons and adds a
+  `pending` class to the host, so any busier treatment is yours to write.
 - To inspect live logging, set `localStorage.DEBUG` to `editable-field` and
   run `example/index.ts` during development.

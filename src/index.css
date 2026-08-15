@@ -120,3 +120,20 @@ x-button {
         height: var(--x-button-size, 1.5rem);
     }
 }
+
+/**
+ * While the app is saving. The buttons are already disabled, so this
+ * only signals it. Style `.pending` yourself for anything more
+ * elaborate. Kept last so it wins over the button rules above.
+ */
+editable-field.pending {
+    & save-button button {
+        opacity: var(--save-button-pending-opacity, 0.5);
+        cursor: default;
+    }
+
+    & x-button button {
+        opacity: var(--x-button-pending-opacity, 0.5);
+        cursor: default;
+    }
+}
