@@ -22,6 +22,18 @@
       "import": "./dist/edit-btn.js",
       "require": "./dist/edit-btn.cjs"
     },
+    "./edit-btn": {
+      "import": "./dist/edit-btn.js",
+      "require": "./dist/edit-btn.cjs"
+    },
+    "./x-btn": {
+      "import": "./dist/x-btn.js",
+      "require": "./dist/x-btn.cjs"
+    },
+    "./save-btn": {
+      "import": "./dist/save-btn.js",
+      "require": "./dist/save-btn.cjs"
+    },
     "./css": "./dist/index.css",
     "./min/css": "./dist/index.min.css",
     "./min/*": {
